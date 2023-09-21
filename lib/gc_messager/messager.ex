@@ -111,7 +111,7 @@ defmodule GCMessager.Messager do
     with true <- prepare_messages != [],
          {prepare_messages, tails} <- Enum.split(prepare_messages, -@batch_num),
          {:ok, messages} <- dump_messages(handler, tails),
-         :ok <- cache_messages(handler, messages) do
+         :ok <- cache_messages(messages, handler) do
       if function_exported?(handler, :on_handle_message_success, 1) do
         exec_callback(handler, :on_handle_message_success, messages)
       end
@@ -131,7 +131,7 @@ defmodule GCMessager.Messager do
     exec_callback(handler, :load_messages)
   end
 
-  def cache_messages(handler, messages) do
+  def cache_messages(messages, handler) do
     Enum.map(messages, &{&1.id, &1})
     |> handler.cache_messages()
   end

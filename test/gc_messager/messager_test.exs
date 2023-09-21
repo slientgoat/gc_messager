@@ -62,13 +62,17 @@ defmodule GCMessager.MessagerTest do
     end
   end
 
-  test "cache_messages/1 with 1m num in 1 second" do
-    ids = Enum.to_list(1..100_000)
+  describe "cache_messages/2" do
+    setup [:create_messager]
 
-    ids
-    |> Enum.map(&valid_personal_message(%{id: &1}))
-    |> GCMessager.Messager.cache_messages()
+    test "test with 1m num in 1 second", %{state: state} do
+      ids = Enum.to_list(1..100_000)
 
-    assert GCMessager.MessageCache.count_all(make_range_ids_match_spec(1, 100_000)) == 200_000
+      ids
+      |> Enum.map(&valid_personal_message(%{id: &1}))
+      |> GCMessager.Messager.cache_messages(state.handler)
+
+      assert GCMessager.MessageCache.count_all(make_range_ids_match_spec(1, 100_000)) == 200_000
+    end
   end
 end
