@@ -33,6 +33,7 @@ defmodule GCMessager do
       defdelegate pull_message_ids(last_message_id, to), to: GCMessager
       defdelegate get_message(message_id), to: GCMessager.MessageCache, as: :get
       defdelegate get_messages(message_ids), to: GCMessager.MessageCache, as: :get_all
+      defdelegate cache_messages(messages), to: GCMessager.MessageCache, as: :put_all
       defoverridable load_messages: 0
     end
   end
