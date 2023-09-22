@@ -28,6 +28,10 @@ defmodule GCMessager do
         []
       end
 
+      def ttl() do
+        @opts[:ttl]
+      end
+
       defdelegate build_personal_message(attrs), to: Message
       defdelegate deliver(message), to: Messager
       defdelegate pull_message_ids(last_message_id, to), to: GCMessager
