@@ -1,4 +1,4 @@
-defmodule GCMessager.SimpleHandler do
+defmodule SimpleHandler do
   use GCMessager
   require Logger
 

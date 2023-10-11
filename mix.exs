@@ -13,14 +13,20 @@ defmodule GCMessager.MixProject do
   end
 
   # Run "mix help compile.app" to learn about applications.
-  def application do
-    [
-      mod: {GCMessager.Application, []},
-      extra_applications: [:logger]
-    ]
+  if Mix.env() == :test do
+    def application do
+      [
+        mod: {BenchTestApplication, []},
+        extra_applications: [:logger]
+      ]
+    end
+  else
+    def application do
+      []
+    end
   end
 
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test/support", "benchmarks"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Run "mix help deps" to learn about dependencies.
@@ -38,7 +44,8 @@ defmodule GCMessager.MixProject do
       {:telemetry, "~> 1.0"},
       {:benchee, "~> 1.1", only: [:dev, :test]},
       {:jchash, "~> 0.1.4"},
-      {:ex2ms, "~> 1.6"}
+      {:ex2ms, "~> 1.6"},
+      {:local_cluster, "~> 1.2", only: [:test]}
     ]
   end
 end

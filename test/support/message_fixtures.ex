@@ -22,7 +22,7 @@ defmodule GCMessager.MessageFixtures do
   end
 
   def create_messager(_args \\ []) do
-    opts = [id: 1, handler: GCMessager.SimpleHandler]
+    opts = [id: 1, handler: SimpleHandler]
     {:ok, state, {:continue, continue}} = Messager.init(opts)
     {:noreply, state} = Messager.handle_continue(continue, state)
     %{state: state}
